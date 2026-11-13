@@ -62,7 +62,8 @@ def _customer_key(request: Request, response: Response) -> str:
         key = secrets.token_urlsafe(36)
         response.set_cookie(
             "shopsika_customer_key", key, max_age=60 * 60 * 24 * 365,
-            httponly=True, secure=request.url.scheme == "https", samesite="lax", path="/api",
+            httponly=True, secure=request.url.scheme == "https",
+            samesite="none" if request.url.scheme == "https" else "lax", path="/api",
         )
     return key
 
@@ -87,7 +88,8 @@ def _issue_auth_session(conn: Any, user_id: int, response: Response, request: Re
     conn.execute("INSERT INTO auth_sessions(token_hash,user_id,expires_at) VALUES(?,?,datetime('now','+30 days'))",
                  (hashlib.sha256(token.encode("utf-8")).hexdigest(), user_id))
     response.set_cookie("shopsika_session", token, max_age=60 * 60 * 24 * 30,
-                        httponly=True, secure=request.url.scheme == "https", samesite="lax", path="/api")
+                        httponly=True, secure=request.url.scheme == "https",
+                        samesite="none" if request.url.scheme == "https" else "lax", path="/api")
 
 
 def _password_hash(password: str) -> str:
