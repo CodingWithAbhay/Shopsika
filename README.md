@@ -117,15 +117,3 @@ Edit `backend/demo_products.json` to change the sample catalog. The backend sync
 | `GET` | `/api/orders/{order_number}` | Retrieve an order confirmation. |
 
 Interactive documentation is available at <http://127.0.0.1:8000/docs> while the backend is running.
-
-## 🧪 Run backend workflow tests
-
-From the `backend` folder:
-
-```powershell
-python -m pytest -q
-```
-
-## 🔐 Git and secrets
-
-Commit the source folders, READMEs, environment examples, and dependency lockfiles. Do not commit `.env` files, `backend/shopsika.db`, Python virtual environments, `frontend/node_modules`, or generated build output. The backend and frontend `.gitignore` files exclude these local files.
